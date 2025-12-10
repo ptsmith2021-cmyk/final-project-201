@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Brazilian Jiu-Jitsu & Data | Scratch Page</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <a id="top"></a>
+
+  <div class="page-wrapper">
+    <!-- Simple internal nav -->
+    <nav class="top-nav">
+      <a href="index.html">Back to Professional Site</a>
+      <a href="app.html">Go to Web App</a>
+      <a href="#training" class="anchor-target">Training Priorities</a>
+      <a href="#video" class="anchor-target">Technique Video</a>
+      <a href="#tableau" class="anchor-target">Tableau Dashboard</a>
+    </nav>
+
+    <!-- Intro section -->
+    <div class="section-card">
+      <h1>Brazilian Jiu-Jitsu Notes & Experiments</h1>
+      <p>
+        This scratch page is built completely from scratch to demonstrate core HTML and CSS skills:
+        nested lists, custom styles, anchors, media embeds, and an interactive Tableau visualization.
+      </p>
+    </div>
+
+    <!-- Flex layout section: image + text -->
+    <div class="section-card">
+      <div class="flex-row">
+        <div class="flex-column">
+          <h2 id="training" class="anchor-target">Training Priorities</h2>
+          <p>
+            Below is a simple training structure that balances technique, sparring, and conditioning
+            for Brazilian Jiu-Jitsu.
+          </p>
+
+          <!-- Required: ordered list with nested unordered list -->
+          <ol>
+            <li>
+              Warm-up (10–15 minutes)
+              <ul>
+                <li>Joint mobility & light stretching</li>
+                <li>Solo drills (shrimping, bridges, hip escapes)</li>
+                <li>Technical movements (shot entries, sprawls)</li>
+              </ul>
+            </li>
+            <li>
+              Positional Drilling (20–30 minutes)
+              <ul>
+                <li>Specific positions (closed guard, half guard, turtle)</li>
+                <li>Top and bottom reps with clear goals</li>
+              </ul>
+            </li>
+            <li>
+              Sparring & Situational Rounds (20–30 minutes)
+              <ul>
+                <li>Short rounds from focused positions</li>
+                <li>One or two full rounds to finish</li>
+              </ul>
+            </li>
+          </ol>
+        </div>
+
+        <div class="flex-column">
+          <!-- Required: image not from Bootstrap theme -->
+          <img
+            src="https://images.unsplash.com/photo-1601599963565-3c3306f36c3d?auto=format&fit=crop&w=900&q=80"
+            alt="Brazilian Jiu-Jitsu training"
+            class="feature-image"
+          />
+          <p style="margin-top: 0.75rem; font-size: 0.9rem;">
+            Focus on clean technique first, then increase intensity and speed as you get comfortable.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- YouTube video section -->
+    <div class="section-card" id="video">
+      <h2>Technique Breakdown (YouTube Embed)</h2>
+      <p>
+        Here is an embedded YouTube video that walks through core Brazilian Jiu-Jitsu concepts.
+      </p>
+
+      <!-- Required: embedded YouTube video -->
+      <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+        <iframe
+          src="https://www.youtube.com/embed/RIXUSPQPrlM"
+          title="Introduction to Brazilian Jiu-Jitsu"
+          style="position:absolute; top:0; left:0; width:100%; height:100%; border:0;"
+          allowfullscreen
+        ></iframe>
+      </div>
+    </div>
+
+    <!-- Tableau section -->
+    <div class="section-card" id="tableau">
+      <h2>Interactive Tableau Dashboard</h2>
+      <p>
+        Below is a live Tableau Public graph (not just an image). You can hover and interact with
+        the visualization.
+      </p>
+      <span class="tag">Interactive Tableau Graph</span>
+
+      <!-- Required: interactive Tableau embed -->
+      <div style="margin-top: 1rem;">
+        <iframe
+          src="https://public.tableau.com/views/RegionalSampleWorkbook/Storms?:showVizHome=no&:embed=true"
+          width="100%"
+          height="600"
+        ></iframe>
+      </div>
+    </div>
+
+    <!-- Back to top anchor link -->
+    <div class="section-card">
+      <h3>Navigation</h3>
+      <p>
+        <a href="#top">Back to top of page</a>
+      </p>
+    </div>
+  </div>
+</body>
+</html>

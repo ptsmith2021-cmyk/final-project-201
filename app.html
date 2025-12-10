@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Daily Study & Sales Planner</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background-color: #0f172a;
+      color: #e5e7eb;
+    }
+
+    .app-wrapper {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 3rem;
+    }
+
+    h1 {
+      margin-bottom: 0.5rem;
+    }
+
+    p {
+      margin-top: 0;
+    }
+
+    .card {
+      background-color: #111827;
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.35rem;
+      font-weight: 600;
+    }
+
+    input[type="number"] {
+      width: 100%;
+      padding: 0.4rem 0.6rem;
+      border-radius: 6px;
+      border: 1px solid #4b5563;
+      margin-bottom: 0.8rem;
+      background-color: #020617;
+      color: #e5e7eb;
+    }
+
+    button {
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      border: none;
+      background-color: #38bdf8;
+      color: #020617;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #0ea5e9;
+    }
+
+    .two-column {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+    }
+
+    .two-column > div {
+      flex: 1 1 250px;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 0.1rem 0.55rem;
+      border-radius: 999px;
+      background-color: #1e293b;
+      font-size: 0.8rem;
+      margin-left: 0.4rem;
+    }
+
+    ul {
+      padding-left: 1.25rem;
+    }
+
+    .nav-links {
+      margin-bottom: 1.5rem;
+    }
+
+    .nav-links a {
+      color: #38bdf8;
+      text-decoration: none;
+      margin-right: 1rem;
+      font-weight: 600;
+    }
+
+    .nav-links a:hover {
+      text-decoration: underline;
+    }
+
+    .result-highlight {
+      font-weight: 600;
+      color: #a5b4fc;
+    }
+
+    .quote {
+      margin-top: 1rem;
+      font-style: italic;
+      font-size: 0.95rem;
+      color: #cbd5f5;
+    }
+  </style>
+</head>
+<body>
+  <div class="app-wrapper">
+    <div class="nav-links">
+      <a href="index.html">Back to Professional Site</a>
+      <a href="scratch.html">Scratch Page</a>
+    </div>
+
+    <div class="card">
+      <h1>Daily Study & Sales Planner</h1>
+      <p>
+        Use this mini app to quickly structure your day into focused blocks for
+        <strong>study</strong>, <strong>sales calls</strong>, and <strong>admin</strong> work.
+      </p>
+    </div>
+
+    <div class="card">
+      <div class="two-column">
+        <div>
+          <label for="totalHours">Total hours available today</label>
+          <input id="totalHours" type="number" min="1" max="24" value="8" />
+
+          <label for="studyPercent">Study / coursework (%)</label>
+          <input id="studyPercent" type="number" min="0" max="100" value="40" />
+
+          <label for="salesPercent">Sales / calls (%)</label>
+          <input id="salesPercent" type="number" min="0" max="100" value="40" />
+
+          <label for="adminPercent">Admin / planning (%)</label>
+          <input id="adminPercent" type="number" min="0" max="100" value="20" />
+
+          <button id="generatePlan">Generate Plan</button>
+        </div>
+
+        <div>
+          <p>
+            Tip: Keep the percentages adding up to <span class="result-highlight">100%</span>.
+          </p>
+          <ul>
+            <li>Use this before each workday or study day.</li>
+            <li>Update the inputs if your schedule changes.</li>
+            <li>Try to protect your sales block from distractions.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Suggested Breakdown</h2>
+      <p id="error" style="color: #fca5a5; display: none;"></p>
+      <ul id="breakdownList"></ul>
+      <p id="summary"></p>
+      <p class="quote" id="quote"></p>
+    </div>
+  </div>
+
+  <script>
+    const totalHoursInput = document.getElementById("totalHours");
+    const studyInput = document.getElementById("studyPercent");
+    const salesInput = document.getElementById("salesPercent");
+    const adminInput = document.getElementById("adminPercent");
+    const generateButton = document.getElementById("generatePlan");
+    const breakdownList = document.getElementById("breakdownList");
+    const summary = document.getElementById("summary");
+    const error = document.getElementById("error");
+    const quoteEl = document.getElementById("quote");
+
+    const quotes = [
+      "One focused hour beats three distracted hours.",
+      "Protect your sales block like an appointment with your future self.",
+      "Systems beat motivation. Plan once, execute repeatedly.",
+      "Small consistent wins compound faster than you expect."
+    ];
+
+    function pickRandom(array) {
+      return array[Math.floor(Math.random() * array.length)];
+    }
+
+    generateButton.addEventListener("click", () => {
+      breakdownList.innerHTML = "";
+      summary.textContent = "";
+      error.style.display = "none";
+      quoteEl.textContent = "";
+
+      const totalHours = Number(totalHoursInput.value);
+      const studyP = Number(studyInput.value);
+      const salesP = Number(salesInput.value);
+      const adminP = Number(adminInput.value);
+
+      if (!totalHours || totalHours <= 0) {
+        error.textContent = "Enter a valid number of hours.";
+        error.style.display = "block";
+        return;
+      }
+
+      const sumPercent = studyP + salesP + adminP;
+      if (sumPercent !== 100) {
+        error.textContent = "Your percentages must add up to exactly 100%. Current total: " + sumPercent + "%.";
+        error.style.display = "block";
+        return;
+      }
+
+      const studyHours = (totalHours * studyP) / 100;
+      const salesHours = (totalHours * salesP) / 100;
+      const adminHours = (totalHours * adminP) / 100;
+
+      const rounded = (h) => Math.round(h * 4) / 4; // quarter-hour precision
+
+      const blocks = [
+        { label: "Study / coursework", hours: rounded(studyHours) },
+        { label: "Sales / calls", hours: rounded(salesHours) },
+        { label: "Admin / planning", hours: rounded(adminHours) }
+      ];
+
+      blocks.forEach((block) => {
+        const li = document.createElement("li");
+        li.innerHTML = `<span class="result-highlight">${block.hours} hour(s)</span> of ${block.label}.`;
+        breakdownList.appendChild(li);
+      });
+
+      summary.textContent =
+        "Total planned time: " +
+        rounded(studyHours + salesHours + adminHours) +
+        " hours. Lock these blocks into your calendar.";
+
+      quoteEl.textContent = pickRandom(quotes);
+    });
+  </script>
+</body>
+</html>
